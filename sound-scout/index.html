@@ -4,6 +4,7 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="stylesheet" href="styles.css">
+        <link rel="stylesheet" href="recommend.css">
         <title> SoundScout - AI Music Discovery </title>
     </head>
     <body>
@@ -59,15 +60,6 @@
                 <!-- Personal Recommendations -->
                 <div class="recommend-querys" id="personal-recommendations">
                     <h2> Get personalized recommendations based on your listening history!</h2>
-                    <label>
-                        <input type="checkbox" id="playlist-check"> I want a playlist
-                    </label>
-                    <label>
-                        <input type="number" min="1" max="10"> How many songs? (1-10)
-                    </label>
-                    <button class="generate-btn" id="personal-rec-button">
-                        Generate Recommendations ✨
-                    </button>
                 </div>
 
                 <!-- Vibe-Based Recommendations -->
@@ -75,15 +67,6 @@
                     <h2> You got a specific vibe your looking for? Get a song for it!</h2>
                     <label for="vibe">Describe the vibe you want</label>
                     <textarea id="vibe" rows="3" placeholder="What's your mood?"></textarea>
-                    <label>
-                        <input type="checkbox" id="playlist-check"> I want a playlist
-                    </label>
-                    <label>
-                        <input type="number" min="1" max="10"> How many songs? (1-10)
-                    </label>
-                    <button class="generate-btn" id="vibe-rec-button">
-                        Generate Recommendations ✨
-                    </button>
                 </div>
 
                 <!-- Genre & BPM Recommendations -->
@@ -104,17 +87,10 @@
                         </select>
                     <textarea id="vibe" rows="3" placeholder="What's the genre you're looking for?"></textarea>
                     
-                    <label for="bpm">Target BPM</label>
-                    <input type="number" id="bpm" placeholder="e.g., 120" min="60" max="200">
-                    <label>
-                        <input type="checkbox" id="playlist-check"> I want a playlist
-                    </label>
-                    <label>
-                        <input type="number" min="1" max="10"> How many songs? (1-10)
-                    </label>
-                    <button class="generate-btn" id="genre-rec-button">
-                        Generate Recommendations ✨
-                    </button>
+                    <div class="inline-row">
+                        <label for="bpm">Target BPM</label>
+                        <input type="number" id="bpm" placeholder="e.g., 120" min="60" max="200">
+                    </div>
                 </div>
 
                 <!-- Similarity-Based Recommendations -->
@@ -122,27 +98,32 @@
                     <h2> Find a song based on artists or a song you already like!</h2>
                     <label for="similar-song">Find songs similar to...</label>
                     <input type="text" id="similar-song" placeholder="Enter a song name or artist">
-                    <label>
-                        <input type="checkbox" id="playlist-check"> I want a playlist
+                </div>
+                
+                <!-- Playlist checkbox inputs-->
+                <div class="generation-container">
+                    <label id="checkbox-label">
+                        <span id="playlist"> I want a playlist </span>
+                        <input type="checkbox" id="check"> 
+                        <div class = "number-selection" id="number-selection">
+                            <span> Enter a number from 1 - 10: </span>
+                            <input type="number" id="input-number" min="1" max="10"> 
+                        </div>  
                     </label>
-                    <label>
-                        <input type="number" min="1" max="10"> How many songs? (1-10)
-                    </label>
-                    <button class="generate-btn" id="similarity-rec-button">
+                    <button class="generate-btn" id="personal-rec-button">
                         Generate Recommendations ✨
                     </button>
-                </div>
-
-                <!-- Random Recommendations -->
-                <div class="recommend-querys" id="random-recommendations">
-                    <h2> Get a random recommendation! </h2>
-                    <p> This will generate one random song. Who knows what it will give you...</p>
-                    <button class="generate-btn" id="random-rec-button">
-                        Generate Recommendation ✨
-                    </button>
-                </div>
+                </div>  
             </div>  
-    
+
+        <!-- Random Recommendations -->
+            <div class="recommend-querys" id="random-recommendations">
+                <h2> Get a random recommendation! </h2>
+                <p> This will generate one random song. Who knows what it will give you...</p>
+                <button class="generate-btn" id="random-rec-button">
+                    Generate Recommendation ✨
+                </button>
+            </div>
         <script src="script.js"></script> 
     </body>
 </html>
