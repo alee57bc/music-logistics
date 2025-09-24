@@ -6,7 +6,7 @@
 
 body {
     font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: linear-gradient(150deg, #AA53B5 0%, #3595CC 100%);
     background-repeat: no-repeat;
     min-height: 100vh;
     color: white;  
@@ -26,6 +26,12 @@ body {
 .header h1{
     font-size: 5rem;
     margin-bottom: 5px;
+}
+
+p {
+    color: rgba(255, 255, 255, 0.8);
+    font-family: "Fira Code", monospace;
+    font-size: 1.1rem;
 }
 
 /* authentication section */
@@ -87,16 +93,18 @@ body {
     margin-bottom: 40px;
 }
 
-.feature-card, .feature-card-2 {
+.feature-card{
     background: rgba(255, 255, 255, 0.1);
     backdrop-filter: blur(10px);
     border-radius: 15px;
     padding: 25px;
     transition: transform 0.3s ease;
     text-align: center;
+    color: white;
+    border-color: rgba(255, 255, 255, 0.0);
 }
 
-.feature-card-2{
+.feature-card:nth-child(5) {
     grid-column: 1 / -1;
 }
 
@@ -105,7 +113,13 @@ body {
     margin-bottom: 15px;
 }
 
-.feature-card:hover, .feature-card-2:hover {
+.feature-card:hover {
     background: rgba(255, 255, 255, 0.3);
     transform: translateY(-5px);
+}
+
+.feature-card.is-active{
+    background: rgba(255, 255, 255, 0.3);
+    box-shadow: 0 8px 30px rgba(0,0,0,0.25);
+    transform: translateY(-6px);
 }

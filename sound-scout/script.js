@@ -106,7 +106,7 @@ function populateUI(profile) {
 }
 */
 
-// Safe element lookups (the Spotify logic above is commented out so getElementById may return null)
+//logic for spotify login button
 const loginSection = document.getElementById('spotify-login');
 const loggedInSection = document.getElementById('spotify-logged-in');
 const spotifyButton = document.getElementById('spotify-button');
@@ -115,22 +115,106 @@ const welcomeText = document.getElementById('welcome-text');
 
 if (spotifyButton) {
     spotifyButton.addEventListener('click', () => {
-        // add spotify api login logic here later
+        //add spotify api login logic here later
         if (loggedInSection) loggedInSection.style.display = 'flex';
         if (welcomeText) welcomeText.textContent = `Welcome, ${userName}!`;
         if (loginSection) loginSection.style.display = 'none';
     });
 }
 
-// checkbox to number input logic with guards
+// Feature card click behavior: show the matching recommendation panel and hide the others
+(function() {
+    const cards = document.querySelectorAll('.feature-card, .feature-card-2');
+    const recommendationSection = document.querySelector('.recommendation-section');
+    // Map card id -> panel id
+    const panelMap = {
+        'personal-card': 'personal-recommendations',
+        'vibe-card': 'vibe-recommendations',
+        'genre-card': 'genre-recommendations',
+        'similarity-card': 'similarity-recommendations',
+        'random-card': 'random-recommendations'
+    };
+
+    function hideAllPanels() {
+        document.querySelectorAll('.recommend-pannels').forEach(p => {
+            p.style.display = 'none';
+            p.classList.remove('is-active');
+        });
+    }
+
+    function anyCardActive() {
+        return Array.from(cards).some(c => c.classList.contains('is-active'));
+    }
+
+    const checkboxSpacer = document.getElementById('checkbox-spacer');
+    // initialize: hide recommendation section if no card active
+    if (recommendationSection && !anyCardActive()) {
+        recommendationSection.style.display = 'none';
+    }
+    // initialize checkbox spacer visibility based on any active card
+    const activeCard = document.querySelector('.feature-card.is-active');
+    if (checkboxSpacer) {
+        if (activeCard && activeCard.id === 'random-card') {
+            checkboxSpacer.style.display = 'none';
+        } else {
+            checkboxSpacer.style.display = '';
+        }
+    }
+
+    cards.forEach(card => {
+        card.addEventListener('click', () => {
+            const wasActive = card.classList.contains('is-active');
+
+            // clear current state
+            cards.forEach(c => c.classList.remove('is-active'));
+            hideAllPanels();
+
+            //clear all text boxes
+            document.getElementById('vibe-text').value = '';
+            document.getElementById('genre-text').value = '';
+            document.getElementById('bpm-input').value = '';
+            document.getElementById('similar-song').value = '';
+
+            //uncheck checkbox + hide number
+            document.getElementById("check").checked = false;
+            document.getElementById('input-number').value = '';
+            document.getElementById('number-selection').style.display = 'none';
+
+            if (!wasActive) {
+                // activate clicked card and show its panel
+                card.classList.add('is-active');
+                const panelId = panelMap[card.id];
+                if (panelId) {
+                    const panel = document.getElementById(panelId);
+                    if (panel) {
+                        panel.style.display = 'flex';
+                        panel.classList.add('is-active');
+                    }
+                }
+                // show/hide the checkbox spacer depending on the selected card
+                if (checkboxSpacer) {
+                    if (card.id === 'random-card') {
+                        checkboxSpacer.style.display = 'none';
+                    } else {
+                        checkboxSpacer.style.display = '';
+                    }
+                }
+                if (recommendationSection) recommendationSection.style.display = 'grid';
+            } else {
+                // user clicked the active card -> hide the whole recommendation section
+                if (recommendationSection) recommendationSection.style.display = 'none';
+            } 
+        });
+    });
+})();
+
+//checkbox logic to show/hide number input
 const checkbox = document.getElementById('check');
 const numberSelection = document.getElementById('number-selection');
 const numberInput = document.getElementById('input-number');
 
-// No direct style access without checking the element exists
+//make sure number input gets reset on load
 if (numberInput) {
-    // don't forcibly hide the input itself; the container (.number-selection) controls visibility in CSS
-    // but ensure it's not accidentally left with display:none inline
     numberInput.style.display = '';
 }
 
@@ -150,6 +234,5 @@ if (checkbox) {
             }
         }
     });
-} else {
-    console.warn('Checkbox with id "check" not found.');
-}
+} 
+

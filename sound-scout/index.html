@@ -32,48 +32,47 @@
 
             <!-- Menu for recommendation format-->
             <div class="features-section">
-                <div class="feature-card" id="personal-card" >
+                <button class="feature-card" id="personal-card">
                     <h3>✨ Personal Recommendations 🎯</h3>
                     <p>Analyze your top tracks and discover music that matches your taste.</p>
-                </div>
-                <div class="feature-card" id="vibe-card">
+                </button>
+                <button class="feature-card" id="vibe-card">
                     <h3>🎨 Vibe-Based Discovery 🫧</h3>
                     <p>Describe the mood you want and let AI find the perfect song to match.</p>
-                </div>
-                <div class="feature-card" id="genre-card">
+                </button>
+                <button class="feature-card" id="genre-card">
                     <h3>⚡ BPM & Genre Matching 🔥</h3>
                     <p>Filter by tempo, genre, and audio geatures to find exactly what you need.</p>
-                </div>
-                <div class="feature-card" id="similarity-card">
+                </button>
+                <button class="feature-card" id="similarity-card">
                     <h3>💭 Similarity Engine 🔍</h3>
                     <p>Find songs similar to any track using advanced audio feature analysis</p>
-                </div>
-                <div class="feature-card-2" id="random-card">
+                </button>
+                <button class="feature-card" id="random-card">
                     <h3> Random Song </h3>
                     <p>Get a random song. Who knows what you will get!</p>
-                </div>
+                </button>
             </div>
 
             <!-- Recommendation section where user interacts with agent -->
             <div class="recommendation-section">
 
                 <!-- Personal Recommendations -->
-                <div class="recommend-querys" id="personal-recommendations">
+                <div class="recommend-pannels" id="personal-recommendations">
                     <h2> Get personalized recommendations based on your listening history!</h2>
                 </div>
 
                 <!-- Vibe-Based Recommendations -->
-                <div class="recommend-querys" id="vibe-recommendations">
+                <div class="recommend-pannels" id="vibe-recommendations">
                     <h2> You got a specific vibe your looking for? Get a song for it!</h2>
-                    <label for="vibe">Describe the vibe you want</label>
-                    <textarea id="vibe" rows="3" placeholder="What's your mood?"></textarea>
+                    <textarea id="vibe-text" rows="3" placeholder="What's your mood?"></textarea>
                 </div>
 
                 <!-- Genre & BPM Recommendations -->
-                <div class="recommend-querys" id="genre-recommendations">
-                    <h2> Find a song based on genre or bpm. Yes, you can do one or both!</h2>
-                    <label for="genre">Genre</label>
-                        <select id="genre">
+                <div class="recommend-pannels" id="genre-recommendations">
+                    <h2 for="genre">Find a song based on genre or bpm.</h2>
+                    <p>Yes, you can do one or both!</p>
+                        <select id="genre-dropdown">
                             <option value="">Any Genre</option>
                             <option value="other">I want to type it out!</option>
                             <option value="pop">Pop</option>
@@ -85,45 +84,43 @@
                             <option value="classical">Classical</option>
                             <option value="country">Country</option>
                         </select>
-                    <textarea id="vibe" rows="3" placeholder="What's the genre you're looking for?"></textarea>
+                    <textarea id="genre-text" rows="3" placeholder="What genre are you looking for?"></textarea>
                     
                     <div class="inline-row">
                         <label for="bpm">Target BPM</label>
-                        <input type="number" id="bpm" placeholder="e.g., 120" min="60" max="200">
+                        <input type="number" id="bpm-input" placeholder="e.g., 120" min="60" max="200">
                     </div>
                 </div>
 
                 <!-- Similarity-Based Recommendations -->
-                <div class="recommend-querys" id="similarity-recommendations">
-                    <h2> Find a song based on artists or a song you already like!</h2>
-                    <label for="similar-song">Find songs similar to...</label>
+                <div class="recommend-pannels" id="similarity-recommendations">
+                    <h2> Find songs similar to...</h2>
                     <input type="text" id="similar-song" placeholder="Enter a song name or artist">
                 </div>
                 
+                <!-- Random Recommendations -->
+                <div class="recommend-pannels" id="random-recommendations">
+                    <h2> Get a random recommendation! </h2>
+                    <p> This will generate one random song. Who knows what you will get...</p>
+                </div> 
+
                 <!-- Playlist checkbox inputs-->
                 <div class="generation-container">
-                    <label id="checkbox-label">
-                        <span id="playlist"> I want a playlist </span>
-                        <input type="checkbox" id="check"> 
-                        <div class = "number-selection" id="number-selection">
-                            <span> Enter a number from 1 - 10: </span>
-                            <input type="number" id="input-number" min="1" max="10"> 
-                        </div>  
-                    </label>
+                    <div id="checkbox-spacer">
+                        <label id="checkbox-label">
+                            <span id="playlist"> I want a playlist </span>
+                            <input type="checkbox" id="check"> 
+                            <div class = "number-selection" id="number-selection">
+                                <span> Enter a number from 1 - 10: </span>
+                                <input type="number" id="input-number" min="1" max="10"> 
+                            </div>  
+                        </label>
+                    </div>
                     <button class="generate-btn" id="personal-rec-button">
                         Generate Recommendations ✨
                     </button>
                 </div>  
             </div>  
-
-        <!-- Random Recommendations -->
-            <div class="recommend-querys" id="random-recommendations">
-                <h2> Get a random recommendation! </h2>
-                <p> This will generate one random song. Who knows what it will give you...</p>
-                <button class="generate-btn" id="random-rec-button">
-                    Generate Recommendation ✨
-                </button>
-            </div>
         <script src="script.js"></script> 
     </body>
 </html>
