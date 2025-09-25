@@ -54,6 +54,10 @@ input::placeholder, textarea::placeholder {
     font-family: "Fira Code", monospace;
 }
 
+#genre-text{
+    display: none;
+}
+
 /* checkbox, number input, and generate button */
 .generation-container {
     display: flex;

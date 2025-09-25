@@ -1,111 +1,3 @@
-/*
-//spotify login button logic
-const loginSection = document.getElementById('spotify-login');
-const loggedInSection = document.getElementById('spotify-logged-in');
-const spotifyButton = document.getElementById('spotify-button');
-        
-const userName = "User"; // Placeholder for user's name after login
-const welcomeText = document.getElementById('welcome-text');
-        
-//spotify api login calling
-const clientId = "spotify-client-id"; // Replace with your Spotify client ID
-const code = undefined;
-
-if (!code) {
-    redirectToAuthCodeFLow(clientId);
-} else {
-    const accessToken = await fetchAccessToken(clientId, code);
-    const profile = await fetchUserProfile(accessToken);
-    populateUI(profile);
-}
-
-//redirect to spotify auth page
-async function redirectToAuthCodeFLow(clientId) {
-    const verifier = generateCodeVerifier(128);
-    const challenge = await generateCodeChallenge(verifier);
-    
-    localStorage.setItem('verifier', verifier);
-
-    const params = new URLSearchParams();
-    params.append("client_id", clientId);
-    params.append("response_type", "code");
-    params.append("redirect_uri", "http://127.0.0.1:5173/callback");
-    params.append("scope", "user-read-private user-read-email");
-    params.append("code_challenge_method", "S256");
-    params.append("code_challenge", challenge);
-
-    document.location = `https://accounts.spotify.com/authorize?${params.toString()}`;
-}
-
-//generate code verifier
-function generateCodeVerifier(length) {
-    let text = '';
-    const possible = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-
-    for (let i = 0; i < length; i++) {
-        text += possible.charAt(Math.floor(Math.random() * possible.length));
-    }
-    return text;
-}
-
-//generate code challenge
-async function generateCodeChallenge(verifier) {
-    const data = new TextEncoder().encode(verifier);
-    const digest = await window.crypto.subtle.digest('SHA-256', data);
-    return btoa(String.fromCharCode(...new Uint8Array(digest)))
-        .replace(/\+/g, '-')
-        .replace(/\//g, '_')
-        .replace(/=+$/, '');
-} 
-
-//get access token for code
-async function getAccessToken(clientId, code) {
-    const verifier = localStorage.getItem("verifier");
-
-    const params = new URLSearchParams();
-    params.append("client_id", clientId);
-    params.append("grant_type", "authorization_code");
-    params.append("code", code);
-    params.append("redirect_uri", "http://127.0.0.1:5173/callback"); //change redirect_uri
-    params.append("code_verifier", verifier);
-
-    const result = await fetch("https://accounts.spotify.com/api/token", {
-        method: "POST",
-        headers: { "Content-Type": "application/x-www-form-urlencoded" },
-        body: params
-    });
-
-    const { access_token } = await result.json();
-    return access_token;
-} 
-
-//call web API
-async function fetchUserProfile(accessToken) {
-    const result = await fetch("https://api.spotify.com/v1/me", {
-        method: "GET", headers: { Authorization: `Bearer ${token}` }
-    });
-
-    return await result.json();
-} 
-
-//update UI with profile data
-function populateUI(profile) {
-    document.getElementById("displayName").innerText = profile.display_name;
-    if (profile.images[0]) {
-        const profileImage = new Image(200, 200);
-        profileImage.src = profile.images[0].url;
-        document.getElementById("avatar").appendChild(profileImage);
-        document.getElementById("imgUrl").innerText = profile.images[0].url;
-    }
-    document.getElementById("id").innerText = profile.id;
-    document.getElementById("email").innerText = profile.email;
-    document.getElementById("uri").innerText = profile.uri;
-    document.getElementById("uri").setAttribute("href", profile.external_urls.spotify);
-    document.getElementById("url").innerText = profile.href;
-    document.getElementById("url").setAttribute("href", profile.href);
-}
-*/
-
 //logic for spotify login button
 const loginSection = document.getElementById('spotify-login');
 const loggedInSection = document.getElementById('spotify-logged-in');
@@ -124,7 +16,7 @@ if (spotifyButton) {
 
 // Feature card click behavior: show the matching recommendation panel and hide the others
 (function() {
-    const cards = document.querySelectorAll('.feature-card, .feature-card-2');
+    const cards = document.querySelectorAll('.feature-card');
     const recommendationSection = document.querySelector('.recommendation-section');
     // Map card id -> panel id
     const panelMap = {
@@ -169,17 +61,25 @@ if (spotifyButton) {
             cards.forEach(c => c.classList.remove('is-active'));
             hideAllPanels();
 
-            //clear all text boxes
-            document.getElementById('vibe-text').value = '';
-            document.getElementById('genre-text').value = '';
-            document.getElementById('bpm-input').value = '';
-            document.getElementById('similar-song').value = '';
-
-            //uncheck checkbox + hide number
-            document.getElementById("check").checked = false;
-            document.getElementById('input-number').value = '';
-            document.getElementById('number-selection').style.display = 'none';
-
+            //1 = clear value, 2 = clear display, 3 = item 1 and 2, 4 = uncheck checkbox
+            const clearList = {'vibe-text': 1, 'genre-text': 3, 'bpm-input': 1, 'similar-song': 1, 'genre-dropdown': 1, 'input-number': 1,
+                                'number-selection': 2, 'check': 4
+                                }
+            for (let key of Object.keys(clearList)){
+                const currItem = document.getElementById(key)
+                const currTitle = clearList[key]
+                if (currTitle === 1 && currItem.value != ''){
+                    currItem.value = '';
+                } else if (currTitle === 2 && currItem.style.display != 'none'){
+                    currItem.style.display = 'none';
+                } else if (currTitle === 3 && (currItem.value != '' || currItem.style.display != 'none')){
+                    currItem.value = '';
+                    currItem.style.display = 'none'; 
+                } else {
+                    currItem.checked = false;
+                }
+            }
+        
             if (!wasActive) {
                 // activate clicked card and show its panel
                 card.classList.add('is-active');
@@ -207,6 +107,19 @@ if (spotifyButton) {
         });
     });
 })();
+
+//genre logic so that the textbox only shows when "i want to type it out" is selected
+const genreDropdown = document.getElementById("genre-dropdown");
+genreDropdown.addEventListener('change', () =>{
+    const selectedValue = genreDropdown.value;
+
+    if (selectedValue === "other") {
+        document.getElementById("genre-text").value = '';
+        document.getElementById("genre-text").style.display = "flex";
+    } else { 
+        document.getElementById("genre-text").style.display = "none";
+    }   
+});
 
 //checkbox logic to show/hide number input
 const checkbox = document.getElementById('check');
